@@ -17,6 +17,9 @@ const videoSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+    },
     hotScore: {
         type: Number,
         default: 0

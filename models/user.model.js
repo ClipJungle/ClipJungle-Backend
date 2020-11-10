@@ -4,7 +4,6 @@ const userSchema = mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true,
     },
     password: {
         type: String,
@@ -13,7 +12,6 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
     },
     isAdmin: {
         type: Boolean,
@@ -51,7 +49,7 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
     },
-    active: {
+    isActive: {
         type: Boolean,
         default: true
     }

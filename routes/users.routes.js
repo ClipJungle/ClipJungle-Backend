@@ -2,8 +2,6 @@ const router = require('express').Router()
 const User = require('../models/user.model')
 const bcrypt = require('bcrypt')
 
-const passport = require('passport')
-
 // AUTH ROUTES
 
 router.post('/register', async (req, res) => {
@@ -20,22 +18,10 @@ router.post('/register', async (req, res) => {
 })
 
 // Login a user
-router.post('/login', passport.authenticate('local'), (req, res) => {
-    res.json(req.user)
-})
 
 // Logout a user
-router.delete('/logout', (req, res) => {
-    req.logOut()
-    res.json('OK')
-})
 
 // GENERAL API ROUTES
-
-// Get the logged in user
-router.get('/user', (req, res) => {
-    res.json(req.user)
-})
 
 // Get all users
 router.get('/', async (req, res) => {
