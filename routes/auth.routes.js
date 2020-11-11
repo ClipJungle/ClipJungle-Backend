@@ -5,13 +5,29 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 // Import Utils
-const { getUserByUsername } = require('../utils/users.utils')
+const { getUserByUsername, getUserByEmail } = require('../utils/users.utils')
 
 // Import email service
 const transporter = require('../config/transporter.config')
 
+router.post('/forgot-password-confirmation-email', (req, res) => {
+    // 5 digit numeric code
+    const confirmationCode = Math.floor(Math.random()*90000) + 10000
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: req.body.email,
+        subject: 'ClipJungle Password Reset',
+        text: `Your confirmation code is ${confirmationCode}`
+    }
+
+    transporter.sendMail(mailOptions)
+
+    res.json(confirmationCode)
+})
+
 // Send confirmation email
-router.post('/confirmation-email', (req, res) => {
+router.post('/register-confirmation-email', (req, res) => {
     // 5 digit numeric code
     const confirmationCode = Math.floor(Math.random()*90000) + 10000
 
@@ -25,6 +41,28 @@ router.post('/confirmation-email', (req, res) => {
     transporter.sendMail(mailOptions)
 
     res.json(confirmationCode)
+})
+
+router.post('/reset-password', async (req, res) => {
+    const { email, newPassword } = req.body
+    
+    const user = await getUserByEmail(email)
+    if (!user) {
+        return res.json(null)
+    }
+
+    user.password = await bcrypt.hash(newPassword, 10)
+    await user.save()
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: req.body.email,
+        subject: 'Your ClipJungle Password Has Changed',
+        text: `The password for your ClipJungle account was recently changed.`
+    }
+
+    transporter.sendMail(mailOptions)
+    res.json('OK')
 })
 
 // Register a user

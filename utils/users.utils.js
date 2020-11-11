@@ -11,5 +11,11 @@ const getUserById = async id => {
     return user
 }
 
+const getUserByEmail = async email => {
+  const user = await User.findOne({ email: email })
+  return user
+}
+
 module.exports.getUserByUsername = getUserByUsername
 module.exports.getUserById = getUserById
+module.exports.getUserByEmail = getUserByEmail
