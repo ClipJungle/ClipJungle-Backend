@@ -1,8 +1,6 @@
-const router = require('express').Router()
-const Video = require('../models/video.model')
+const router = require('express').Router();
+const Video = require('../models/video.model');
 
-router.post('/upload', () => {
-    
-})
+router.post('/upload', () => {});
 
-module.exports = router
+module.exports = router;
