@@ -19,7 +19,7 @@ router.post('/confirmation-email', (req, res) => {
         from: process.env.EMAIL_USER,
         to: req.body.email,
         subject: 'ClipJungle Confirmation Code',
-        text: `Your confirmation code for ClipJungle is ${confirmationCode}`
+        text: `Your confirmation code for ${req.body.username} is ${confirmationCode}`
     }
 
     transporter.sendMail(mailOptions)
