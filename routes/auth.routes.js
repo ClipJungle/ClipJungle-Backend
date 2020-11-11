@@ -7,6 +7,26 @@ const bcrypt = require('bcrypt')
 // Import Utils
 const { getUserByUsername } = require('../utils/users.utils')
 
+// Import email service
+const transporter = require('../config/transporter.config')
+
+// Send confirmation email
+router.post('/confirmation-email', (req, res) => {
+    // 5 digit numeric code
+    const confirmationCode = Math.floor(Math.random()*90000) + 10000
+
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: req.body.email,
+        subject: 'ClipJungle Confirmation Code',
+        text: `Your confirmation code for ClipJungle is ${confirmationCode}`
+    }
+
+    transporter.sendMail(mailOptions)
+
+    res.json(confirmationCode)
+})
+
 // Register a user
 router.post('/register', async (req, res) => {
     const { password } = req.body
