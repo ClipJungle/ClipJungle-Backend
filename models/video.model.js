@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./user.model');
 
 const videoSchema = mongoose.Schema(
     {
@@ -6,20 +7,9 @@ const videoSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
-        title: {
-            type: String,
-            required: true,
-        },
         description: {
             type: String,
             required: true,
-        },
-        videoFile: {
-            type: String,
-            required: true,
-        },
-        category: {
-            type: mongoose.Schema.Types.ObjectId,
         },
         hotScore: {
             type: Number,
@@ -28,6 +18,7 @@ const videoSchema = mongoose.Schema(
         likedBy: [
             {
                 type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
             },
         ],
         allowComments: {
@@ -43,6 +34,12 @@ const videoSchema = mongoose.Schema(
         timestamps: true,
     },
 );
+
+videoSchema.post('save', async (doc) => {
+    const user = await User.findById(doc.user);
+    user.videos.push(doc._id);
+    await user.save();
+});
 
 const Video = mongoose.model('Video', videoSchema);
 

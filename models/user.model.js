@@ -24,6 +24,12 @@ const userSchema = mongoose.Schema(
         lastName: {
             type: String,
         },
+        videos: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Video',
+            },
+        ],
         followers: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
