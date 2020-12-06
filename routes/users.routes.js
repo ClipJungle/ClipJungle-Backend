@@ -2,6 +2,13 @@ const router = require('express').Router();
 const User = require('../models/user.model');
 const bcrypt = require('bcrypt');
 
+// Get all clips for a certain user
+router.get('/:id/clips', async (req, res) => {
+    const user = await User.findById(req.params.id);
+    const populatedUser = await user.execPopulate('clips');
+    res.json(populatedUser.clips);
+});
+
 // GENERAL API ROUTES
 
 // Get all users
@@ -18,6 +25,7 @@ router.delete('/', async (req, res) => {
 
 // Get a user with a specific ID
 router.get('/:id', async (req, res) => {
+    console.log(req.params.id);
     const user = await User.findById(req.params.id);
     res.json(user);
 });

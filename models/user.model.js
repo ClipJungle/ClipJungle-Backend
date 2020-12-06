@@ -24,20 +24,24 @@ const userSchema = mongoose.Schema(
         lastName: {
             type: String,
         },
-        videos: [
+        clips: [
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Video',
+                ref: 'Clip',
             },
         ],
-        followers: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
-        following: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-        },
+        followers: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+            },
+        ],
+        following: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+            },
+        ],
         bio: {
             type: String,
         },

@@ -24,11 +24,11 @@ const db = initializeDB();
 // Set API routes
 const usersRouter = require('./routes/users.routes');
 const authRouter = require('./routes/auth.routes');
-const videosRouter = require('./routes/videos.routes');
+const clipsRouter = require('./routes/clips.routes');
 
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
-app.use('/api/videos', videosRouter);
+app.use('/api/clips', clipsRouter);
 
 // Run server on port
 const PORT = process.env.PORT || 5000;

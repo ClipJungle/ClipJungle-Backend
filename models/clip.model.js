@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
-const User = require('./user.model');
 
-const videoSchema = mongoose.Schema(
+const clipSchema = mongoose.Schema(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
@@ -35,12 +34,6 @@ const videoSchema = mongoose.Schema(
     },
 );
 
-videoSchema.post('save', async (doc) => {
-    const user = await User.findById(doc.user);
-    user.videos.push(doc._id);
-    await user.save();
-});
+const Clip = mongoose.model('Clip', clipSchema);
 
-const Video = mongoose.model('Video', videoSchema);
-
-module.exports = Video;
+module.exports = Clip;
